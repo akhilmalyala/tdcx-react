@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import Login from './components/Login/login';
+import Dashboard from './components/Dashboard/dashboard';
+import useToken from './useToken';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { token, setToken } = useToken();
+
+    const handleLogout = () => {
+        sessionStorage.clear();
+        setToken("");
+    };
+
+    if(!token) {
+        return <Login setToken={setToken} />
+    }
+
+    return (
+        <Dashboard handleLogout={handleLogout}/>
+    );
 }
 
 export default App;
